@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <style type="text/css">
+
+        html{
+            margin-left: 5%;
+            margin-right: 5%;
+            margin-top: 3%;
+        }
+
+    </style>
+
+</head>
+
+<body>
+<div class="container">
+    <h3>Spring Boot Rest API CRUD Completo</h3>
+
+    <form action="" id="formCadastroUser">
+        <div class="mb-3">
+            <label for="id" class="form-label">ID</label>
+            <input type="text" class="form-control" id="id" readonly="readonly">
+        </div>
+
+        <div class="mb-3">
+            <label for="nome" class="form-label">Nome do Usuário</label>
+            <input type="text" class="form-control" id="nome" placeholder="Informe o nome" required="required">
+        </div>
+
+        <div class="mb-3">
+            <label for="idade" class="form-label">Idade</label>
+            <input type="number" class="form-control" id="idade">
+        </div>
+
+        <!---Botões--->
+        <button type="button" class="btn btn-primary" onclick="saveUser()">Salvar</button>
+        <button type="button" class="btn btn-secondary" onclick="document.getElementById('formCadastroUser').reset();">Novo</button>
+        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalPesquisaUser">Pesquisar</button>
+        <button type="button" class="btn btn-danger" onclick="botaoDeletarDaTela()">Deletar</button>
+    </form>
+
+    <!---Modal bootstrap--->
+    <div class="modal fade" id="modalPesquisaUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Pesquisa de usuário</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="nameBusca" class="col-form-label">Informe o nome:</label>
+                            <input type="text" class="form-control" id="nameBusca">
+                        </div>
+                        <button type="button" class="btn btn-success" onclick="searchUser()">Buscar</button>
+                    </form>
+
+                    <div style="height: 300px; overflow: scroll;">
+                        <table class="table" id="tabelaResultados">
+                            <thead class="table-light">
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Nome</th>
+                                <th scope="col">Editar</th>
+                                <th scope="col">Deletar</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+
+
+
+    function saveUser() {
+        var id = $("#id").val();
+        var nome = $("#nome").val();
+        var idade = $("#idade").val();
+
+        if(nome == null || nome != null && nome.trim() == ''){
+            $("#nome").focus();
+            alert('Informe o nome');
+            return;
+        }
+
+        if(idade == null || idade != null && idade.trim() == ''){
+            $("#idade").focus();
+            alert('Informe a idade');
+            return;
+        }
+
+        $.ajax({
+            method: "POST",
+            url: "salvartodos",
+            data: JSON.stringify({id : id, nome : nome, idade : idade}),
+            contentType: "application/json; charset=utf-8",
+            success: function (response) {
+                $("#id").val(response.id);
+                alert("Gravou com sucesso!");
+            },
+            error: function (xhr, status, errorThrown) {
+                alert("Erro ao salvar o Usuario: " + xhr.responseText);
+            }
+        });
+    }
+
+
+
+
+
+    function colocarEmEdicao(id){
+        $.ajax({
+                method: "GET",
+                url: "buscaruserid",
+                data: { iduser: id }, // Corrigido para passar o parâmetro 'nome' corretamente
+                success: function(response) {
+
+                    $("#id").val(response.id);
+                    $("#nome").val(response.nome);
+                    $("#idade").val(response.idade);
+
+                    $('#modalPesquisaUser').modal('hide');
+
+
+                },
+                error: function(xhr, status, errorThrown) {
+                    alert("Erro ao buscar o Usuario po ID: " + xhr.responseText);
+                }
+            });
+    }
+
+
+
+
+    function deleteUser(id) {
+    if (confirm("Você tem certeza que deseja apagar o usuário?")) {
+        $.ajax({
+            method: "DELETE",
+            url: "delete",
+            data: { iduser: id },
+            success: function(response) {
+                alert("Usuário deletado com sucesso!");
+                // Remove a linha da tabela correspondente ao usuário excluído
+                $('#tabelaResultados > tbody > tr').each(function() {
+                    if ($(this).find('td:first').text() == id) {
+                        $(this).remove();
+                        return false; // Sai do loop após encontrar e remover a linha
+                    }
+                });
+            },
+            error: function(xhr, status, errorThrown) {
+                alert("Erro ao apagar o usuário: " + xhr.responseText);
+            }
+        });
+    } else {
+        // Se o usuário não confirmar a exclusão, não fazemos nada
+    }
+    }
+
+
+    function botaoDeletarDaTela(){
+        var id = $('#id').val();
+
+        if(id != null && id.trim() != ''){
+            deleteUser(id);
+            document.getElementById('formCadastroUser').reset();
+        }
+                
+    }
+
+
+
+    function searchUser() {
+        var nome = $("#nameBusca").val();
+
+        if (nome != null && nome.trim() != '') {
+            $.ajax({
+                method: "GET",
+                url: "buscarpornome",
+                data: { nome: nome }, // Corrigido para passar o parâmetro 'nome' corretamente
+                success: function(response) {
+                    $('#tabelaResultados > tbody').empty();
+
+                    for (var i = 0; i < response.length; i++) {
+                        $('#tabelaResultados > tbody').append('<tr><td>' + response[i].id + '</td><td>' + response[i].nome + '</td><td><button type="button" onclick="colocarEmEdicao('+response[i].id+')" class="btn btn-info">Ver</button></td><td><button type="button" class="btn btn-danger" onclick="deleteUser('+response[i].id+')">Deletar</button></td></tr>');
+                    }
+                },
+                error: function(xhr, status, errorThrown) {
+                    alert("Erro ao buscar o Usuario: " + xhr.responseText);
+                }
+            });
+        } else {
+            alert("Por favor, informe um nome para buscar.");
+        }
+    }
+
+
+</script>
+
+</body>
+</html>
