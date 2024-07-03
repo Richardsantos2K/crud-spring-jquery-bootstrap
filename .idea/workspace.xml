@@ -4,20 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="58e18736-b069-41c1-9f9b-5665fba95f9b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/br/com/springboot/Application.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/br/com/springboot/controllers/GreetingsController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/br/com/springboot/model/UserModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/br/com/springboot/repository/UserRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/br/com/springboot/requests/GreetingsControllerTest.java" afterDir="false" />
-    </list>
+    <list default="true" id="58e18736-b069-41c1-9f9b-5665fba95f9b" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
