@@ -52,7 +52,7 @@ Este projeto está licenciado sob a Licença MIT - consulte o arquivo LICENSE pa
 - **Visão Geral:** Introdução breve sobre o projeto.
 - **Funcionalidades:** Destaca as principais funcionalidades do projeto.
 - **Instruções de Configuração:** Passos claros para clonar, configurar e executar o projeto localmente.
-- **Contribuidores:** Lista de contribuidores (nesse caso, apenas você).
+- **Contribuidores:** Lista de contribuidores (nesse caso, apenas eu).
 - **Licença:** Informação sobre a licença do projeto.
 
 
